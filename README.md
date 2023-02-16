@@ -21,7 +21,7 @@ pip install -r requirements.txt
 run with uvicorn
 
 ```sh
-uvincorm main:app --reload
+uvicorn main:app --reload
 ```
 
 ## Meta
