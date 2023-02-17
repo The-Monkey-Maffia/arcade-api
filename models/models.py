@@ -2,5 +2,7 @@ from pydantic import BaseModel
 
 
 
-class Data(BaseModel):
-    Value: str
+class GameData(BaseModel):
+    Id: int | None
+    GameName: str
+    CreateBy: str
