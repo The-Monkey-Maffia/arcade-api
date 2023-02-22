@@ -1,8 +1,7 @@
 from pydantic import BaseModel
 
 
-
-class GameData(BaseModel):
+class GameScore(BaseModel):
     Id: int | None
     GameName: str
     CreateBy: str

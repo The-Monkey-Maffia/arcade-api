@@ -13,6 +13,7 @@ def GetDataById(GameId: int):
 
 @app.post("/AddGame/{Data}")
 def AddGameByData(Data):
+
     return AddGame(Data, mydb)
 
 # @app.get("/GetDataFromDatabase")
