@@ -1,8 +1,8 @@
-import array
+
 from mysql.connector import cursor
 
 
-def Game_GetById(GameId: int) -> array:
+def Game_GetById(GameId: int) -> list:
     cursor.callproc('GetGame', [GameId])
     return cursor.fetchall()
 

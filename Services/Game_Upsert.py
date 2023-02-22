@@ -1,4 +1,4 @@
-from ..models.models import GameData
+from models.models import GameData
 from mysql.connector import cursor
 from mysql.connector import MySQLConnection
 
