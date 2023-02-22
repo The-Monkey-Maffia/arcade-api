@@ -1,13 +1,30 @@
 import mysql.connector as mysql
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
+class Database:
+  def __init__(self, host, user, password, database):
+    self.host = host
+    self.user = user
+    self.password = password
+    self.database = database
 
+  def connect(self):
+    try:
+      db = mysql.connect(
+        host = self.host,
+        user = self.user,
+        password = self.password,
+        database = self.database
+      )
+    except:
+      print("❌ database connection could not be made, try again later ❌")
+    else:
+      print("🔗 database connection made succesfully 🔗")
+      return db
 
-mydb = mysql.connect(
-    host=os.environ.get("DB_HOST"),
-    user=os.environ.get("DB_USER"),
-    password=os.environ.get("DB_PASS"),
-    database=os.environ.get("DB_NAME")
-)
+  def closeConnection(cursor):
+    try:
+      cursor.close()
+    except:
+      print("❌ database connection could not be close, try again later ❌")
+    else: 
+      print("🔌 database connection closed succesfully 🔌")

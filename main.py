@@ -15,10 +15,6 @@ def GetDataById(GameId: int):
 def AddGameByData(Data):
     return AddGame(Data, mydb)
 
-
-
-
-
 # @app.get("/GetDataFromDatabase")
 # def GetDataById():
 #     return GetGameData(None)
