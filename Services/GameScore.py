@@ -1,18 +1,21 @@
-from models.Game import GameData
+from models.GameScore import GameScore
 from mysql.connector.cursor import CursorBase
 from fastapi import HTTPException
 
 
-class Game:
-    def __init__(self, data: GameData, cursor: CursorBase):
+class GameScore:
+
+    def __init__(self, data: GameScore, cursor: CursorBase, GameId: int):
         self.data = data
         self.cursor = cursor
 
-    def Get(self) -> GameData:
+    def Get(self) -> GameScore:
+        # GameId
         pass
 
     def Upsert(self) -> HTTPException:
         try:
+            self.cursor.callprocess("", self.data)
             raise HTTPException(
                 status_code=200,
                 details="Create a new game"

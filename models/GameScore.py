@@ -1,7 +1,10 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 
 class GameScore(BaseModel):
     Id: int | None
-    GameName: str
-    CreateBy: str
+    GameId: str
+    Score: float
+    User: str
+    Date: datetime
