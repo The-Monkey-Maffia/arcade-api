@@ -1,20 +1,30 @@
 from fastapi import FastAPI
-from config.database import mydb
+from config.database import Database
+import os
+from dotenv import load_dotenv
+from Services import GameScore, Game
 # from Services.AddGameData import AddGameData
-from Services.GetGameScore import GetGameScore
-from Services.Game_Upsert import AddGame
-from schemas.schemas import Data
+
 app = FastAPI()
+load_dotenv()
+db = Database(
+    os.getenv("DB_HOST"),
+    os.getenv("DB_USER"),
+    os.getenv("DB_PASS"),
+    os.getenv("DB_NAME")
+).connect()
 
 
-@app.get("/GetGameScore/{GameId}")
-def GetDataById(GameId: int):
-    return Data(GetGameScore(mydb))
+@app.get("/GetGame")
+async def GetData():
+    d = Game.GameClass(None, db)
+    return d.Get()
 
-@app.post("/AddGame/{Data}")
-def AddGameByData(Data):
 
-    return AddGame(Data, mydb)
+# @app.post("/AddGame/{Data}")
+# def AddGameByData(Data):
+
+#     return AddGame(Data, mydb)
 
 # @app.get("/GetDataFromDatabase")
 # def GetDataById():

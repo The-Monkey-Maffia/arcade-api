@@ -1,4 +1,6 @@
 import mysql.connector as mysql
+from mysql.connector import MySQLConnection
+from mysql.connector.cursor import CursorBase
 
 
 class Database:
@@ -10,6 +12,7 @@ class Database:
 
     def connect(self):
         try:
+
             db = mysql.connect(
                 host=self.host,
                 user=self.user,
@@ -21,11 +24,3 @@ class Database:
         else:
             print("🔗 database connection made succesfully 🔗")
             return db
-
-    def closeConnection(cursor):
-        try:
-            cursor.close()
-        except:
-            print("❌ database connection could not be close, try again later ❌")
-        else:
-            print("🔌 database connection closed succesfully 🔌")

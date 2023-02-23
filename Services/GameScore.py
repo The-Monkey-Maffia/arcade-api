@@ -1,13 +1,16 @@
 from models.GameScore import GameScore
-from mysql.connector.cursor import CursorBase
+from mysql.connector import MySQLConnection
 from fastapi import HTTPException
 
 
 class GameScore:
 
-    def __init__(self, data: GameScore, cursor: CursorBase, GameId: int):
+    def __init__(self, data: GameScore, db: MySQLConnection):
         self.data = data
-        self.cursor = cursor
+        self.cursor = db.cursor()
+
+    def __del__(self):
+        self.cursor.Close()
 
     def Get(self) -> GameScore:
         # GameId
