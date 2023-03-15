@@ -4,18 +4,15 @@ from mysql.connector.cursor import CursorBase
 
 from fastapi import HTTPException
 
-from schemas.Game import SMGameData
-
-
 class GameClass:
-    def __init__(self, data: GameData | None, db: MySQLConnection) -> None:
+    def __init__(self, data: GameData   | None, db: MySQLConnection) -> None:
         self.data = data
         self.db = db
 
     def Get(self):
         with self.db.cursor() as cursor:
             cursor.execute("Game_Get()")
-            returnData = SMGameData(cursor.fetchall())
+            returnData = cursor.fetchall()
             return returnData
 
     def Upsert(self) -> HTTPException:
