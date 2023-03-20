@@ -1,9 +1,10 @@
+from Services.Functions import tupleToDict
 from models.Game import GameDataInput, GameDataOutput
 from mysql.connector import MySQLConnection
 
 from fastapi import HTTPException
 
-class GameClass:
+class Game:
     def __init__(self, data: GameDataInput, db: MySQLConnection) -> None:
         self.data = data
         self.db = db
@@ -13,8 +14,10 @@ class GameClass:
             with self.db.cursor() as cursor:
                 query = f"CALL game_get({self.data['id']},{self.data['gameName']},{self.data['gameAuthors']})"
                 cursor.execute(query)
-                returnData = cursor.fetchall()
-                return returnData
+                resultRaw = cursor.fetchall()[0]
+                resultNames = ['gameId', 'gameName', 'gameAuthors', 'gameDataCreation', 'gameDateUpdate']
+                filterdResult = tupleToDict(resultRaw, resultNames)
+                return filterdResult
 
         except:
             raise HTTPException(

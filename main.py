@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 from Services.Functions import tupleToDict
+from Services.Score import Score
 from config.database import Database
 import os
 from dotenv import load_dotenv
-from Services.Game import GameClass as Game
+from Services.Game import Game
 from models.Game import GameDataInput
 
 app = FastAPI()
+
 load_dotenv()
+
 db = Database(
     os.getenv("DB_HOST"),
     os.getenv("DB_USER"),
@@ -20,9 +23,8 @@ db = Database(
 def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
     gameData: GameDataInput = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
     game = Game(gameData, db)
-    resultArray = game.Get()[0]
-    resultNames = ['id', 'gameName', 'gameAuthors', 'gameDataCreation', 'gameDateUpdate']
-    return tupleToDict(resultArray, resultNames)
+    result = game.Get()
+    return result
 
 @app.delete("/game/delete/{gameId}")
 def GameDelete(gameId: int):
@@ -36,7 +38,6 @@ def GameCreate(gameName: str, gameAuthors: str = None):
     game = Game(gameData, db)
     game.Create()
 
-
 @app.patch("/game/update/{gameId}")
 def GameUpdate(gameId: int, gameName: str = None, gameAuthors: str = None):
     gameData = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
@@ -44,8 +45,11 @@ def GameUpdate(gameId: int, gameName: str = None, gameAuthors: str = None):
     game.Update()
 
 @app.get('/score/get/{gameId}')
-def GetGameScore():
-    pass
+def GetGameScore(gameId: str, scoreUser: str = None, outputLimit: int = 0):
+    scoreData = {'gameId': gameId, 'scoreUser': scoreUser, 'outputLimit': outputLimit}
+    score = Score(scoreData, db)
+    result = score.Get()
+    return result
 
 @app.post('/score/create')
 def ScoreCreate():
