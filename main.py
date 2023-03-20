@@ -3,9 +3,8 @@ from Services.Functions import tupleToDict
 from config.database import Database
 import os
 from dotenv import load_dotenv
-from Services import Game
+from Services.Game import GameClass as Game
 from models.Game import GameDataInput
-# from Services.AddGameData import AddGameData
 
 app = FastAPI()
 load_dotenv()
@@ -20,7 +19,7 @@ db = Database(
 @app.get("/GameGet/{gameId}")
 def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
     gameData: GameDataInput = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
-    game = Game.GameClass(gameData, db)
+    game = Game(gameData, db)
     resultArray = game.Get()[0]
     resultNames = ['id', 'gameName', 'gameAuthors', 'gameDataCreation', 'gameDateUpdate']
     return tupleToDict(resultArray, resultNames)
@@ -28,15 +27,18 @@ def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
 @app.get("/GameDelete")
 def GameDelete(gameId: int = 0, gameName: str = 0):
     gameData: GameDataInput  = {'id': gameId, 'gameName': gameName}
-    game = Game.GameClass(gameData, db)
-    game.delete()
+    game = Game(gameData, db)
+    game.Delete()
+
+@app.post("/GameCreate/{gameName}")
+def GameCreate(gameName: str, gameAuthors: str = None):
+    gameData = {'id': 0, 'gameName': gameName, 'gameAuthors': gameAuthors}
+    game = Game(gameData, db)
+    game.Create()
 
 
-# @app.get("/GetDataFromDatabase")
-# def GetDataById():
-#     return GetGameData(None)
-
-
-# @app.post("/AddDataToDatabase")
-# def AddData(data: Data):
-#     return AddGameData(data, curser)
+@app.patch("/GameUpdate/{gameId}")
+def GameUpdate(gameId: int, gameName: str = None, gameAuthors: str = None):
+    gameData = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
+    game = Game(gameData, db)
+    game.Update()

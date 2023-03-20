@@ -22,24 +22,28 @@ class GameClass:
                 detail="Could not get the game data"
             )
 
-
-    def Upsert(self) -> HTTPException:
+    def Create(self) -> HTTPException:
         try:
-            raise HTTPException(
-                status_code=200,
-                detail="Create a new game"
-            )
+            with self.db.cursor() as cursor:
+                query = f"CALL game_create(\"{self.data['gameName']}\",\"{self.data['gameAuthors']}\")"
+                cursor.execute(query)
+                self.db.commit()
         except:
             raise HTTPException(
                 status_code=500,
                 detail="Could not create game"
             )
+        else:
+            raise HTTPException(
+                status_code=200,
+                detail="Created a new game"
+            )
 
-    def delete(self) -> HTTPException:
+
+    def Delete(self) -> HTTPException:
         try:
             with self.db.cursor() as cursor:
                 query = (f"CALL game_delete({self.data['id']},{self.data['gameName']})")
-                print(query)
                 cursor.execute(query)
                 self.db.commit()
         except:
@@ -51,4 +55,21 @@ class GameClass:
             raise HTTPException(
                 status_code=200,
                 detail="Deleted game"
+            )
+
+    def Update(self) -> HTTPException:
+        try:
+            with self.db.cursor() as cursor:
+                query = f"CALL game_update({self.data['id']}, \"{self.data['gameName']}\", \"{self.data['gameAuthors']}\")"
+                cursor.execute(query)
+                self.db.commit()
+        except:
+            raise HTTPException(
+                status_code=500,
+                detail="Game could not be updated"
+            )
+        else:
+            raise HTTPException(
+                status_code=200,
+                detail="Game is updated"
             )
