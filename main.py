@@ -16,7 +16,7 @@ db = Database(
 ).connect()
 
 
-@app.get("/GameGet/{gameId}")
+@app.get("/game/get/{gameId}")
 def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
     gameData: GameDataInput = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
     game = Game(gameData, db)
@@ -24,21 +24,30 @@ def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
     resultNames = ['id', 'gameName', 'gameAuthors', 'gameDataCreation', 'gameDateUpdate']
     return tupleToDict(resultArray, resultNames)
 
-@app.delete("/GameDelete{gameId}")
+@app.delete("/game/delete/{gameId}")
 def GameDelete(gameId: int):
     gameData: GameDataInput  = {'id': gameId}
     game = Game(gameData, db)
     game.Delete()
 
-@app.post("/GameCreate/{gameName}")
+@app.post("/game/create/{gameName}")
 def GameCreate(gameName: str, gameAuthors: str = None):
     gameData = {'id': 0, 'gameName': gameName, 'gameAuthors': gameAuthors}
     game = Game(gameData, db)
     game.Create()
 
 
-@app.patch("/GameUpdate/{gameId}")
+@app.patch("/game/update/{gameId}")
 def GameUpdate(gameId: int, gameName: str = None, gameAuthors: str = None):
     gameData = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
     game = Game(gameData, db)
     game.Update()
+
+@app.get('/score/get/{gameId}')
+def GetGameScore():
+    pass
+
+@app.post('/score/create')
+def ScoreCreate():
+    pass
+
