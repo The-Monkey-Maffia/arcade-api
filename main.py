@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from Services.Functions import tupleToDict
 from config.database import Database
 import os
 from dotenv import load_dotenv
-from Services import GameScore, Game
+from Services import Game
+from models.Game import GameDataInput
 # from Services.AddGameData import AddGameData
 
 app = FastAPI()
@@ -15,16 +17,20 @@ db = Database(
 ).connect()
 
 
-@app.get("/GetGame")
-async def GetData():
-    d = Game.GameClass(None, db)
-    return d.Get()
+@app.get("/GameGet/{gameId}")
+def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
+    gameData: GameDataInput = {'id': gameId, 'gameName': gameName, 'gameAuthors': gameAuthors}
+    game = Game.GameClass(gameData, db)
+    resultArray = game.Get()[0]
+    resultNames = ['id', 'gameName', 'gameAuthors', 'gameDataCreation', 'gameDateUpdate']
+    return tupleToDict(resultArray, resultNames)
 
+@app.get("/GameDelete")
+def GameDelete(gameId: int = 0, gameName: str = 0):
+    gameData: GameDataInput  = {'id': gameId, 'gameName': gameName}
+    game = Game.GameClass(gameData, db)
+    game.delete()
 
-# @app.post("/AddGame/{Data}")
-# def AddGameByData(Data):
-
-#     return AddGame(Data, mydb)
 
 # @app.get("/GetDataFromDatabase")
 # def GetDataById():

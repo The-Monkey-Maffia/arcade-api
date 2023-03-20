@@ -2,8 +2,12 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class GameData(BaseModel):
-    Id: int | None
-    GameName: str
-    CreateBy: str
-    Create: datetime
+class GameDataInput(BaseModel):
+    id: int
+    gameName: str
+    gameAuthors: datetime
+
+class GameDataOutput(GameDataInput):
+    gameDateCreated: str
+    gameDataUpdated: str
+

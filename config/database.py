@@ -1,6 +1,4 @@
 import mysql.connector as mysql
-from mysql.connector import MySQLConnection
-from mysql.connector.cursor import CursorBase
 
 
 class Database:
