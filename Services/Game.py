@@ -43,7 +43,7 @@ class GameClass:
     def Delete(self) -> HTTPException:
         try:
             with self.db.cursor() as cursor:
-                query = (f"CALL game_delete({self.data['id']},{self.data['gameName']})")
+                query = (f"CALL game_delete({self.data['id']})")
                 cursor.execute(query)
                 self.db.commit()
         except:

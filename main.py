@@ -24,9 +24,9 @@ def GameGet(gameId: int, gameName: str = 0, gameAuthors: str = 0):
     resultNames = ['id', 'gameName', 'gameAuthors', 'gameDataCreation', 'gameDateUpdate']
     return tupleToDict(resultArray, resultNames)
 
-@app.get("/GameDelete")
-def GameDelete(gameId: int = 0, gameName: str = 0):
-    gameData: GameDataInput  = {'id': gameId, 'gameName': gameName}
+@app.delete("/GameDelete{gameId}")
+def GameDelete(gameId: int):
+    gameData: GameDataInput  = {'id': gameId}
     game = Game(gameData, db)
     game.Delete()
 
