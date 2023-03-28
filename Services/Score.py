@@ -5,7 +5,6 @@ from fastapi import HTTPException
 
 
 class Score:
-
     def __init__(self, data: ScoreCreateInput | ScoreGetInput, db: MySQLConnection) -> None:
         self.data = data
         self.db = db
@@ -29,4 +28,13 @@ class Score:
             )
 
     def Create(self) -> HTTPException:
-        pass
+        try:
+            with self.db.cursor() as cursor:
+                query = f"CALL score_create({self.data['score']}, {self.data['gameId']}, \"{self.data['scoreUser']}\")"
+                cursor.execute(query)
+                self.db.commit()
+        except:
+            raise HTTPException(
+                status_code=500,
+                detail="Could not create the score data"
+            )

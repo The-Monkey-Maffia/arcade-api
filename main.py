@@ -45,13 +45,15 @@ def GameUpdate(gameId: int, gameName: str = None, gameAuthors: str = None):
     game.Update()
 
 @app.get('/score/get/{gameId}')
-def GetGameScore(gameId: str, scoreUser: str = None, outputLimit: int = 0):
+def GetGameScore(gameId: int, scoreUser: str, outputLimit: int):
     scoreData = {'gameId': gameId, 'scoreUser': scoreUser, 'outputLimit': outputLimit}
     score = Score(scoreData, db)
     result = score.Get()
     return result
 
-@app.post('/score/create')
-def ScoreCreate():
-    pass
+@app.post('/score/create/{score}')
+def ScoreCreate(scoreValue: int, gameId: int, scoreUser: str):
+    scoreData = {'gameId': gameId, 'score': scoreValue, 'scoreUser': scoreUser}
+    score = Score(scoreData, db)
+    score.Create()
 
