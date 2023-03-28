@@ -1,4 +1,4 @@
-from Services.Functions import tupleToDict
+from services.Functions import tupleToDict
 from models.Score import ScoreCreateInput, ScoreGetInput, ScoreOutput
 from mysql.connector import MySQLConnection
 from fastapi import HTTPException

@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from Services.Functions import tupleToDict
-from Services.Score import Score
+from services.Functions import tupleToDict
+from services.Score import Score
 from config.database import Database
 import os
 from dotenv import load_dotenv
-from Services.Game import Game
+from services.Game import Game
 from models.Game import GameDataInput
 
 app = FastAPI()

@@ -1,4 +1,4 @@
-from Services.Functions import tupleToDict
+from services.Functions import tupleToDict
 from models.Game import GameDataInput, GameDataOutput
 from mysql.connector import MySQLConnection
 
