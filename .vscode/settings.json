@@ -2,6 +2,6 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.python"
   },
-  "prettier.tabWidth": 2,
-  "editor.tabSize": 2
+  "prettier.tabWidth": 4,
+  "editor.tabSize": 4
 }
